@@ -1,0 +1,89 @@
+/* Estilos específicos para dashboards */
+.dashboard-nav-btn:hover,
+.floreria-nav-btn:hover,
+.admin-nav-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Estilos para tablas responsivas */
+@media (max-width: 768px) {
+    .table-responsive {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* Estilos para gráficos y estadísticas */
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+/* Animaciones específicas para dashboards */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.dashboard-section {
+    animation: slideInRight 0.3s ease-out;
+}
+
+/* Estilos para modales */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos para estados */
+.status-active {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-suspended {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.status-inactive {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+/* Estilos para cards de productos */
+.product-card {
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(195, 58, 148, 0.2);
+}
+
+/* Estilos para filtros */
+.filter-section {
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+/* Estilos para botones de acción */
+.action-btn {
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+}
