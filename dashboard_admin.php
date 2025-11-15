@@ -1,3 +1,34 @@
+<?php
+session_start();
+require_once 'conexion.php';
+
+$usuarios_activos = 0;
+$florerias_registradas = 0;
+$pedidos_mes = 0;
+$ingresos_totales = 0;
+
+// 1. Usuarios activos
+$sql = "SELECT COUNT(*) AS total FROM usuarios_globales WHERE activo = 1";
+$res = $conn->query($sql);
+$usuarios_activos = $res->fetch_assoc()['total'] ?? 0;
+
+// 2. Florerías
+$sql = "SELECT COUNT(*) AS total FROM florerias";
+$res = $conn->query($sql);
+$florerias_registradas = $res->fetch_assoc()['total'] ?? 0;
+
+// 3. Pedidos del Mes
+$mes_actual = date('Y-m');
+$sql = "SELECT COUNT(*) AS total FROM pedidos WHERE DATE_FORMAT(fecha_pedido, '%Y-%m') = '$mes_actual'";
+$res = $conn->query($sql);
+$pedidos_mes = $res->fetch_assoc()['total'] ?? 0;
+
+// 4. Ingresos Totales
+$sql = "SELECT SUM(total) AS total FROM pedidos WHERE estado IN ('entregado','completado')";
+$res = $conn->query($sql);
+$ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -156,81 +187,41 @@
         <div class="flex-1 p-8 overflow-y-auto">
             <div id="admin-content">
                 <!-- Dashboard Admin -->
-                <div id="admin-dashboard">
-                    <div class="mb-8">
-                        <h2 class="text-3xl font-bold mb-2">Dashboard Administrativo</h2>
-                        <p class="text-gray-600">Panel de control general del sistema</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-verde-hoja text-white p-6 rounded-lg">
+                        <div class="text-3xl mb-2">👥</div>
+                        <div class="text-2xl font-bold">
+                            <?php echo number_format($usuarios_activos); ?>
+                        </div>
+                        <div class="text-sm opacity-90">Usuarios Activos</div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div class="bg-verde-hoja text-white p-6 rounded-lg">
-                            <div class="text-3xl mb-2">👥</div>
-                            <div class="text-2xl font-bold">1,234</div>
-                            <div class="text-sm opacity-90">Usuarios Activos</div>
+
+                    <div class="bg-magenta-flor text-white p-6 rounded-lg">
+                        <div class="text-3xl mb-2">🏪</div>
+                        <div class="text-2xl font-bold">
+                            <?php echo number_format($florerias_registradas); ?>
                         </div>
-                        <div class="bg-magenta-flor text-white p-6 rounded-lg">
-                            <div class="text-3xl mb-2">🏪</div>
-                            <div class="text-2xl font-bold">89</div>
-                            <div class="text-sm opacity-90">Florerías Registradas</div>
-                        </div>
-                        <div class="bg-blue-500 text-white p-6 rounded-lg">
-                            <div class="text-3xl mb-2">📦</div>
-                            <div class="text-2xl font-bold">5,678</div>
-                            <div class="text-sm opacity-90">Pedidos del Mes</div>
-                        </div>
-                        <div class="bg-purple-500 text-white p-6 rounded-lg">
-                            <div class="text-3xl mb-2">💰</div>
-                            <div class="text-2xl font-bold">$12.5M</div>
-                            <div class="text-sm opacity-90">Ingresos Totales</div>
-                        </div>
+                        <div class="text-sm opacity-90">Florerías Registradas</div>
                     </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <div class="bg-white rounded-lg shadow-lg p-6">
-                            <h3 class="text-xl font-bold mb-4">Actividad Reciente</h3>
-                            <div class="space-y-3">
-                                <div class="flex items-center space-x-3 text-sm">
-                                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-                                    <span>Nueva florería registrada</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm">
-                                    <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-                                    <span>156 pedidos completados hoy</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm">
-                                    <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>
-                                    <span>3 reportes pendientes</span>
-                                </div>
-                            </div>
+
+                    <div class="bg-blue-500 text-white p-6 rounded-lg">
+                        <div class="text-3xl mb-2">📦</div>
+                        <div class="text-2xl font-bold">
+                            <?php echo number_format($pedidos_mes); ?>
                         </div>
-                        <div class="bg-white rounded-lg shadow-lg p-6">
-                            <h3 class="text-xl font-bold mb-4">Top Florerías</h3>
-                            <div class="space-y-2">
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Bella Rosa</span>
-                                    <span class="text-sm font-bold">4.9 ⭐</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Flores del Campo</span>
-                                    <span class="text-sm font-bold">4.8 ⭐</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-sm">Jardín Secreto</span>
-                                    <span class="text-sm font-bold">4.7 ⭐</span>
-                                </div>
-                            </div>
+                        <div class="text-sm opacity-90">Pedidos del Mes</div>
+                    </div>
+
+                    <div class="bg-purple-500 text-white p-6 rounded-lg">
+                        <div class="text-3xl mb-2">💰</div>
+                        <div class="text-2xl font-bold">
+                            $<?php echo number_format($ingresos_totales, 2); ?>
                         </div>
-                        <div class="bg-white rounded-lg shadow-lg p-6">
-                            <h3 class="text-xl font-bold mb-4">Alertas del Sistema</h3>
-                            <div class="space-y-2">
-                                <div class="bg-red-50 text-red-700 p-2 rounded text-sm">
-                                    2 florerías inactivas
-                                </div>
-                                <div class="bg-yellow-50 text-yellow-700 p-2 rounded text-sm">
-                                    Mantenimiento programado
-                                </div>
-                            </div>
-                        </div>
+                        <div class="text-sm opacity-90">Ingresos Totales</div>
                     </div>
                 </div>
+
+
 
                 <!-- Gestión de Usuarios (usuarios_globales) -->
                 <div id="usuarios" class="hidden">
@@ -490,7 +481,8 @@
                                             <td class="px-6 py-4 text-sm">
                                                 <div><?php echo htmlspecialchars($f['correo_contacto'] ?? '-'); ?></div>
                                                 <div class="text-gray-500">
-                                                    <?php echo htmlspecialchars($f['telefono'] ?? '-'); ?></div>
+                                                    <?php echo htmlspecialchars($f['telefono'] ?? '-'); ?>
+                                                </div>
                                             </td>
                                             <td class="px-6 py-4 text-sm">
                                                 <div><?php echo htmlspecialchars($f['municipio'] ?? '-'); ?></div>
@@ -499,7 +491,8 @@
                                             </td>
                                             <td class="px-6 py-4 text-sm text-center">
                                                 <div class="font-semibold"><?php echo $f['pedidos_actuales'] ?? 0; ?> /
-                                                    <?php echo $f['capacidad_diaria'] ?? 0; ?></div>
+                                                    <?php echo $f['capacidad_diaria'] ?? 0; ?>
+                                                </div>
                                                 <div class="text-xs text-gray-500">actual / diaria</div>
                                             </td>
                                             <td class="px-6 py-4">
@@ -1075,7 +1068,8 @@
                                             <td class="px-6 py-4"><?php echo htmlspecialchars($p['correo_cliente'] ?? 'N/A'); ?>
                                             </td>
                                             <td class="px-6 py-4">
-                                                <?php echo htmlspecialchars($p['nombre_floreria'] ?? 'Sin asignar'); ?></td>
+                                                <?php echo htmlspecialchars($p['nombre_floreria'] ?? 'Sin asignar'); ?>
+                                            </td>
                                             <td class="px-6 py-4">
                                                 <span class="<?php echo $estadoClass; ?> px-2 py-1 rounded-full text-sm">
                                                     <?php echo $estadoTexto; ?>
@@ -1084,7 +1078,8 @@
                                             <td class="px-6 py-4 font-semibold">$<?php echo number_format($p['total'], 2); ?>
                                             </td>
                                             <td class="px-6 py-4">
-                                                <?php echo date('d/m/Y H:i', strtotime($p['fecha_pedido'])); ?></td>
+                                                <?php echo date('d/m/Y H:i', strtotime($p['fecha_pedido'])); ?>
+                                            </td>
                                             <td class="px-6 py-4">
                                                 <button
                                                     onclick='verDetallePedido(<?php echo json_encode($p, JSON_HEX_APOS | JSON_HEX_QUOT); ?>)'
@@ -1536,37 +1531,24 @@
                         </div>
                         <div class="bg-white rounded-lg shadow-lg p-6">
                             <h3 class="text-xl font-bold mb-4">Actividad Reciente</h3>
-                            <div class="space-y-3">
-                                <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                    <div
-                                        class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm">
-                                        ✓</div>
-                                    <div class="flex-1">
-                                        <div class="font-semibold">Usuario verificado</div>
-                                        <div class="text-sm text-gray-600">Juan Pérez - #USR-001</div>
-                                    </div>
-                                    <span class="text-xs text-gray-500">10:30</span>
-                                </div>
-                                <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                    <div
-                                        class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white text-sm">
-                                        !</div>
-                                    <div class="flex-1">
-                                        <div class="font-semibold">Reporte creado</div>
-                                        <div class="text-sm text-gray-600">Problema con entrega</div>
-                                    </div>
-                                    <span class="text-xs text-gray-500">09:15</span>
-                                </div>
-                                <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                    <div
-                                        class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white text-sm">
-                                        ✗</div>
-                                    <div class="flex-1">
-                                        <div class="font-semibold">Cuenta suspendida</div>
-                                        <div class="text-sm text-gray-600">Florería Rosas Elegantes</div>
-                                    </div>
-                                    <span class="text-xs text-gray-500">Ayer</span>
-                                </div>
+                            <div class="flex items-center space-x-3 text-sm">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span>
+                                    Nueva florería registrada:
+                                    <?php echo htmlspecialchars($ultima_floreria_texto); ?>
+                                </span>
+                            </div>
+
+                            <div class="flex items-center space-x-3 text-sm">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                <span>
+                                    <?php echo $pedidos_hoy_completados; ?> pedidos completados hoy
+                                </span>
+                            </div>
+
+                            <div class="flex items-center space-x-3 text-sm">
+                                <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                                <span>3 reportes pendientes</span>
                             </div>
                         </div>
                     </div>
