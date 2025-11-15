@@ -1,9 +1,9 @@
 <?php
 // Datos de conexión (ajústalos si tu base se llama diferente)
-$servername = "localhost";
-$username = "root";
-$password = ""; // En MAMP el usuario y contraseña por defecto son root / root
-$database = "flor_express";
+$servername = "srv734.hstgr.io";
+$username = "u593063890_flor_express";
+$password = "F!0rExpr3ss#2025\$Db"; // En MAMP el usuario y contraseña por defecto son root / root
+$database = "u593063890_flor_express";
 
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $database);

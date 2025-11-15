@@ -92,57 +92,57 @@
         <!-- Sidebar Admin -->
         <div class="w-64 gradient-bg text-white h-screen sticky top-0 overflow-y-auto">
             <div class="p-6">
-                <div class="text-2xl font-bold mb-2">🌸 Flor Express</div>
+                <div class="text-2xl font-bold mb-2">Flor Express</div>
                 <div class="text-sm opacity-75 mb-8">Administrador</div>
                 <nav class="space-y-2">
                     <button onclick="showAdminSection('admin-dashboard')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg bg-white bg-opacity-20 smooth-transition flex items-center space-x-2">
-                        <span>📊</span>
+                        <span></span>
                         <span>Dashboard</span>
                     </button>
                     <button onclick="showAdminSection('usuarios')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
-                        <span>👥</span>
+                        <span></span>
                         <span>Gestión de Usuarios</span>
                     </button>
                     <button onclick="showAdminSection('florerias')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
-                        <span>🏪</span>
+                        <span></span>
                         <span>Gestión de Florerías</span>
                     </button>
                     <button onclick="showAdminSection('catalogo')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
-                        <span>🌸</span>
+                        <span></span>
                         <span>Gestión de Catálogo</span>
                     </button>
                     <button onclick="showAdminSection('pedidos')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
-                        <span>📦</span>
+                        <span></span>
                         <span>Gestión de Pedidos</span>
                     </button>
                     <button onclick="showAdminSection('finanzas')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
-                        <span>💰</span>
+                        <span></span>
                         <span>Finanzas</span>
                     </button>
                     <button onclick="showAdminSection('reportes')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
-                        <span>📋</span>
+                        <span></span>
                         <span>Reportes</span>
                     </button>
                     <button onclick="showAdminSection('configuraciones')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
-                        <span>⚙️</span>
+                        <span></span>
                         <span>Configuraciones</span>
                     </button>
                     <button onclick="showAdminSection('moderacion')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
-                        <span>🛡️</span>
+                        <span></span>
                         <span>Moderación</span>
                     </button>
                     <button onclick="showAdminSection('chat')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
-                        <span>💬</span>
+                        <span></span>
                         <span>Chat con Florerías</span>
                     </button>
                 </nav>
