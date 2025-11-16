@@ -2,31 +2,8 @@
 session_start();
 require_once 'conexion.php';
 
-$usuarios_activos = 0;
-$florerias_registradas = 0;
-$pedidos_mes = 0;
-$ingresos_totales = 0;
 
-// 1. Usuarios activos
-$sql = "SELECT COUNT(*) AS total FROM usuarios_globales WHERE activo = 1";
-$res = $conn->query($sql);
-$usuarios_activos = $res->fetch_assoc()['total'] ?? 0;
 
-// 2. Florerías
-$sql = "SELECT COUNT(*) AS total FROM florerias";
-$res = $conn->query($sql);
-$florerias_registradas = $res->fetch_assoc()['total'] ?? 0;
-
-// 3. Pedidos del Mes
-$mes_actual = date('Y-m');
-$sql = "SELECT COUNT(*) AS total FROM pedidos WHERE DATE_FORMAT(fecha_pedido, '%Y-%m') = '$mes_actual'";
-$res = $conn->query($sql);
-$pedidos_mes = $res->fetch_assoc()['total'] ?? 0;
-
-// 4. Ingresos Totales
-$sql = "SELECT SUM(total) AS total FROM pedidos WHERE estado IN ('entregado','completado')";
-$res = $conn->query($sql);
-$ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
 
 ?>
 <!DOCTYPE html>
@@ -126,52 +103,52 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
                 <div class="text-2xl font-bold mb-2">Flor Express</div>
                 <div class="text-sm opacity-75 mb-8">Administrador</div>
                 <nav class="space-y-2">
-                    <button onclick="showAdminSection('admin-dashboard')"
+                    <button onclick="showDashboardSection('dashboard')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg bg-white bg-opacity-20 smooth-transition flex items-center space-x-2">
                         <span></span>
                         <span>Dashboard</span>
                     </button>
-                    <button onclick="showAdminSection('usuarios')"
+                    <button onclick="showDashboardSection('usuarios')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
                         <span></span>
                         <span>Gestión de Usuarios</span>
                     </button>
-                    <button onclick="showAdminSection('florerias')"
+                    <button onclick="showDashboardSection('florerias')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
                         <span></span>
                         <span>Gestión de Florerías</span>
                     </button>
-                    <button onclick="showAdminSection('catalogo')"
+                    <button onclick="showDashboardSection('catalogo')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
                         <span></span>
                         <span>Gestión de Catálogo</span>
                     </button>
-                    <button onclick="showAdminSection('pedidos')"
+                    <button onclick="showDashboardSection('pedidos')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
                         <span></span>
                         <span>Gestión de Pedidos</span>
                     </button>
-                    <button onclick="showAdminSection('finanzas')"
+                    <button onclick="showDashboardSection('finanzas')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
                         <span></span>
                         <span>Finanzas</span>
                     </button>
-                    <button onclick="showAdminSection('reportes')"
+                    <button onclick="showDashboardSection('reportes')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
                         <span></span>
                         <span>Reportes</span>
                     </button>
-                    <button onclick="showAdminSection('configuraciones')"
+                    <button onclick="showDashboardSection('configuraciones')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
                         <span></span>
                         <span>Configuraciones</span>
                     </button>
-                    <button onclick="showAdminSection('moderacion')"
+                    <button onclick="showDashboardSection('moderacion')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
                         <span></span>
                         <span>Moderación</span>
                     </button>
-                    <button onclick="showAdminSection('chat')"
+                    <button onclick="showDashboardSection('chat')"
                         class="admin-nav-btn w-full text-left px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 smooth-transition flex items-center space-x-2">
                         <span></span>
                         <span>Chat con Florerías</span>
@@ -186,45 +163,57 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
         <!-- Main Content Admin -->
         <div class="flex-1 p-8 overflow-y-auto">
             <div id="admin-content">
-                <!-- Dashboard Admin -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-verde-hoja text-white p-6 rounded-lg">
-                        <div class="text-3xl mb-2">👥</div>
-                        <div class="text-2xl font-bold">
-                            <?php echo number_format($usuarios_activos); ?>
+                <div id="dashboard">
+
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+                        <?php
+                        // Métricas Dashboard
+                        $sql = "SELECT COUNT(*) AS total FROM usuarios_globales WHERE activo = 1";
+                        $usuarios_activos = $conn->query($sql)->fetch_assoc()['total'] ?? 0;
+
+                        $sql = "SELECT COUNT(*) AS total FROM florerias";
+                        $florerias_registradas = $conn->query($sql)->fetch_assoc()['total'] ?? 0;
+
+                        $mes_actual = date('Y-m');
+                        $sql = "SELECT COUNT(*) AS total FROM pedidos WHERE DATE_FORMAT(fecha_pedido, '%Y-%m') = '$mes_actual'";
+                        $pedidos_mes = $conn->query($sql)->fetch_assoc()['total'] ?? 0;
+
+                        $sql = "SELECT SUM(total) AS total FROM pedidos WHERE estado IN ('entregado','completado')";
+                        $ingresos_totales = $conn->query($sql)->fetch_assoc()['total'] ?? 0;
+                        ?>
+
+                        <div class="bg-verde-hoja text-white p-6 rounded-lg">
+                            <div class="text-3xl mb-2">👥</div>
+                            <div class="text-2xl font-bold"><?= number_format($usuarios_activos) ?></div>
+                            <div class="text-sm opacity-90">Usuarios Activos</div>
                         </div>
-                        <div class="text-sm opacity-90">Usuarios Activos</div>
+
+                        <div class="bg-magenta-flor text-white p-6 rounded-lg">
+                            <div class="text-3xl mb-2">🏪</div>
+                            <div class="text-2xl font-bold"><?= number_format($florerias_registradas) ?></div>
+                            <div class="text-sm opacity-90">Florerías Registradas</div>
+                        </div>
+
+                        <div class="bg-blue-500 text-white p-6 rounded-lg">
+                            <div class="text-3xl mb-2">📦</div>
+                            <div class="text-2xl font-bold"><?= number_format($pedidos_mes) ?></div>
+                            <div class="text-sm opacity-90">Pedidos del Mes</div>
+                        </div>
+
+                        <div class="bg-purple-500 text-white p-6 rounded-lg">
+                            <div class="text-3xl mb-2">💰</div>
+                            <div class="text-2xl font-bold">$<?= number_format($ingresos_totales, 2) ?></div>
+                            <div class="text-sm opacity-90">Ingresos Totales</div>
+                        </div>
+
                     </div>
 
-                    <div class="bg-magenta-flor text-white p-6 rounded-lg">
-                        <div class="text-3xl mb-2">🏪</div>
-                        <div class="text-2xl font-bold">
-                            <?php echo number_format($florerias_registradas); ?>
-                        </div>
-                        <div class="text-sm opacity-90">Florerías Registradas</div>
-                    </div>
-
-                    <div class="bg-blue-500 text-white p-6 rounded-lg">
-                        <div class="text-3xl mb-2">📦</div>
-                        <div class="text-2xl font-bold">
-                            <?php echo number_format($pedidos_mes); ?>
-                        </div>
-                        <div class="text-sm opacity-90">Pedidos del Mes</div>
-                    </div>
-
-                    <div class="bg-purple-500 text-white p-6 rounded-lg">
-                        <div class="text-3xl mb-2">💰</div>
-                        <div class="text-2xl font-bold">
-                            $<?php echo number_format($ingresos_totales, 2); ?>
-                        </div>
-                        <div class="text-sm opacity-90">Ingresos Totales</div>
-                    </div>
                 </div>
 
-
-
                 <!-- Gestión de Usuarios (usuarios_globales) -->
-                <div id="usuarios" class="hidden">
+                <div id="usuarios" style="display:none">
                     <div class="mb-8">
                         <h2 class="text-3xl font-bold mb-4">Gestión de Usuarios</h2>
                         <button onclick="document.getElementById('modalCrearUsuario').classList.remove('hidden')"
@@ -419,7 +408,7 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
                 </div>
 
                 <!-- Gestión de Florerías -->
-                <div id="florerias" class="hidden">
+                <div id="florerias" style="display:none"">
                     <div class="mb-8">
                         <h2 class="text-3xl font-bold mb-4">Gestión de Florerías</h2>
                         <button onclick="document.getElementById('modalCrearFloreria').classList.remove('hidden')"
@@ -814,7 +803,7 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
                 </div>
 
                 <!-- Gestión de Catálogo -->
-                <div id="catalogo" class="hidden">
+                <div id="catalogo" style="display:none">
                     <div class="mb-8">
                         <h2 class="text-3xl font-bold mb-4">Gestión de Catálogo</h2>
                         <button onclick="document.getElementById('modalAgregar').classList.remove('hidden')"
@@ -830,7 +819,7 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                                 echo "
-                <div class='bg-white rounded-lg shadow-lg overflow-hidden'>
+                                 <div class='bg-white rounded-lg shadow-lg overflow-hidden'>
                     <img src='{$row['imagen_principal']}' class='w-full h-48 object-cover'>
                     <div class='p-6'>
                         <h3 class='text-xl font-semibold mb-2'>{$row['nombre_articulo']}</h3>
@@ -977,7 +966,7 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
 
 
                 <!-- Gestión de Pedidos -->
-                <div id="pedidos" class="hidden">
+                <div id="pedidos" style="display:none">
                     <div class="mb-8">
                         <h2 class="text-3xl font-bold mb-4">Gestión de Pedidos</h2>
                         <div class="flex space-x-4 mb-6">
@@ -1112,7 +1101,7 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
                 </div>
 
                 <!-- Finanzas -->
-                <div id="finanzas" class="hidden">
+                <div id="finanzas" style="display:none">
                     <div class="mb-8">
                         <h2 class="text-3xl font-bold mb-4">Finanzas</h2>
                     </div>
@@ -1177,7 +1166,7 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
 
                 <!-- Reportes -->
                 <!-- Reportes -->
-                <div id="reportes" class="hidden">
+                <div id="reportes" style="display:none">
                     <div class="mb-8">
                         <h2 class="text-3xl font-bold mb-4">Sistema de Reportes</h2>
                         <p class="text-gray-600">Genera reportes detallados del sistema en diferentes formatos</p>
@@ -1443,7 +1432,7 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
                 </script>
 
                 <!-- Configuraciones -->
-                <div id="configuraciones" class="hidden">
+                <div id="configuraciones" style="display:none">
                     <div class="mb-8">
                         <h2 class="text-3xl font-bold mb-4">Configuraciones del Sistema</h2>
                     </div>
@@ -1488,7 +1477,7 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
                 </div>
 
                 <!-- Moderación -->
-                <div id="moderacion" class="hidden">
+                <div id="moderacion" style="display:none">
                     <div class="mb-8">
                         <h2 class="text-3xl font-bold mb-4">Moderación</h2>
                     </div>
@@ -1555,7 +1544,7 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
                 </div>
 
                 <!-- Chat con Florerías -->
-                <div id="chat" class="hidden">
+                <div id="chat" style="display:none">
                     <div class="mb-8">
                         <h2 class="text-3xl font-bold mb-4">Chat con Florerías</h2>
                     </div>
@@ -2127,6 +2116,18 @@ $ingresos_totales = $res->fetch_assoc()['total'] ?? 0;
                     fila.style.display = 'none';
                 }
             });
+        }
+    </script>
+
+    <script>
+        function showDashboardSection(sectionId) {
+            // Oculta TODAS las secciones
+            document.querySelectorAll("#admin-content > div").forEach(div => {
+                div.style.display = "none";
+            });
+
+            // Muestra SOLO la que quieres
+            document.getElementById(sectionId).style.display = "block";
         }
     </script>
 </body>
