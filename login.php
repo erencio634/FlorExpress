@@ -2,6 +2,11 @@
 session_start();
 include('conexion.php');
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    exit; // evitar carga directa
+}
+
+
 $email = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
 

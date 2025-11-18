@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flor Express - Haz que cada detalle florezca</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -18,12 +19,87 @@
             }
         }
     </script>
+
     <link rel="stylesheet" href="css/main.css">
     <style>
-        
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #C33A94;
+            margin-bottom: 1rem;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: .75rem;
+            margin-bottom: .75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .modal-btn-primary {
+            background: #C3D600;
+            color: white;
+            width: 100%;
+            padding: .8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: .5rem;
+        }
+
+        .modal-btn-secondary {
+            background: #C33A94;
+            color: white;
+            width: 100%;
+            padding: .8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: .5rem;
+        }
+
+        .modal-btn-link {
+            display: block;
+            text-align: center;
+            color: #C33A94;
+            font-size: .9rem;
+            margin-top: .5rem;
+            cursor: pointer;
+        }
     </style>
+
 </head>
+
 <body class="bg-gray-50">
+
     <!-- Navigation -->
     <nav class="gradient-bg shadow-lg fixed w-full top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,155 +112,88 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#inicio" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium smooth-transition">Inicio</a>
-                        <a href="#catalogo" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium smooth-transition">Catálogo</a>
-                        <a href="#nosotros" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium smooth-transition">Nosotros</a>
-                        <a href="#como-funciona" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium smooth-transition">Cómo Funciona</a>
-                        <a href="#contacto" class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium smooth-transition">Contacto</a>
-                        <button onclick="showLogin()" class="bg-magenta-flor text-white px-4 py-2 rounded-lg hover:bg-pink-600 smooth-transition">Iniciar Sesión</button>
+                        <a href="#inicio"
+                            class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium smooth-transition">Inicio</a>
+                        <a href="#catalogo"
+                            class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium smooth-transition">Catálogo</a>
+                        <a href="#nosotros"
+                            class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium smooth-transition">Nosotros</a>
+                        <a href="#como-funciona"
+                            class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium smooth-transition">Cómo
+                            Funciona</a>
+                        <a href="#contacto"
+                            class="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium smooth-transition">Contacto</a>
+                        <button onclick="showLogin()"
+                            class="bg-magenta-flor text-white px-4 py-2 rounded-lg hover:bg-pink-600 smooth-transition">Iniciar
+                            Sesión</button>
                     </div>
                 </div>
                 <div class="md:hidden">
                     <button onclick="toggleMobileMenu()" class="text-white">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
+
         <div id="mobile-menu" class="md:hidden hidden bg-verde-hoja">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <a href="#inicio" class="text-white block px-3 py-2 rounded-md text-base font-medium">Inicio</a>
                 <a href="#catalogo" class="text-white block px-3 py-2 rounded-md text-base font-medium">Catálogo</a>
                 <a href="#nosotros" class="text-white block px-3 py-2 rounded-md text-base font-medium">Nosotros</a>
-                <a href="#como-funciona" class="text-white block px-3 py-2 rounded-md text-base font-medium">Cómo Funciona</a>
+                <a href="#como-funciona" class="text-white block px-3 py-2 rounded-md text-base font-medium">Cómo
+                    Funciona</a>
                 <a href="#contacto" class="text-white block px-3 py-2 rounded-md text-base font-medium">Contacto</a>
-                <button onclick="showLogin()" class="bg-magenta-flor text-white block w-full text-left px-3 py-2 rounded-md text-base font-medium">Iniciar Sesión</button>
+                <button onclick="showLogin()"
+                    class="bg-magenta-flor text-white block w-full text-left px-3 py-2 rounded-md text-base font-medium">Iniciar
+                    Sesión</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section id="inicio" class="pt-16 gradient-bg min-h-screen flex items-center justify-center text-center relative">
-        <!-- Imagen de fondo -->
         <div class="absolute inset-0">
-            <img src="img/banner2.png" alt="Fondo de flores" class="w-full h-full object-cover opacity-80">
+            <img src="img/banner2.png" class="w-full h-full object-cover opacity-80">
         </div>
-
-        <!-- Capa de color para contraste -->
         <div class="absolute inset-0 bg-black bg-opacity-40"></div>
 
-        <!-- Contenido principal -->
         <div class="relative z-10 max-w-4xl mx-auto px-4 py-20">
-            <div class="flex flex-col items-center space-y-6">
-                <img src="img/logo.jpg" alt="Flor Express Logo" class="w-80 h-80 rounded-full object-cover shadow-lg border-4 border-white">
-                <h1 class="text-5xl md:text-7xl font-bold text-white fade-in">Flor Express</h1>
-                <p class="text-2xl md:text-3xl text-white fade-in">"Haz que cada detalle florezca"</p>
-
-                <div class="flex flex-wrap justify-center gap-4 mt-4 fade-in">
-                   <a href="#catalogo" class="bg-magenta-flor text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-pink-600 smooth-transition pulse-custom">
-  Ver Catálogo
-</a>
-
-                   <a href="#app" class="bg-white text-verde-hoja px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 smooth-transition">
-  Descargar App
-</a>
-
-
-                </div>
+            <img src="img/logo.jpg" class="w-80 h-80 rounded-full object-cover shadow-lg border-4 border-white mx-auto">
+            <h1 class="text-5xl md:text-7xl font-bold text-white">Flor Express</h1>
+            <p class="text-2xl md:text-3xl text-white">"Haz que cada detalle florezca"</p>
+            <div class="flex flex-wrap justify-center gap-4 mt-6">
+                <a href="#catalogo"
+                    class="bg-magenta-flor text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-pink-600 smooth-transition pulse-custom">Ver
+                    Catálogo</a>
+                <a href="#app"
+                    class="bg-white text-verde-hoja px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 smooth-transition">Descargar
+                    App</a>
             </div>
         </div>
     </section>
 
-    <!-- Catálogo Section -->
+    <!-- Catálogo -->
     <section id="catalogo" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2  class="text-4xl font-bold text-gray-900 mb-4">Nuestro Catálogo</h2>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Nuestro Catálogo</h2>
                 <p class="text-xl text-gray-600">Encuentra las flores perfectas para cada ocasión</p>
             </div>
-            
-            <!-- Filtros -->
+
             <div class="mb-12 flex flex-wrap justify-center gap-4">
-                <button class="filter-btn bg-verde-hoja text-white px-6 py-2 rounded-full smooth-transition">Todos</button>
-                <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full smooth-transition">Ramos</button>
-                <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full smooth-transition">Funerarios</button>
-                <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full smooth-transition">Eventos</button>
-                <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full smooth-transition">Regalos</button>
+                <button class="filter-btn bg-verde-hoja text-white px-6 py-2 rounded-full">Todos</button>
+                <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full">Ramos</button>
+                <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full">Funerarios</button>
+                <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full">Eventos</button>
+                <button class="filter-btn bg-gray-200 text-gray-700 px-6 py-2 rounded-full">Regalos</button>
             </div>
-            
-            <!-- Productos -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover">
-                     <div class="h-48 w-full overflow-hidden">
-                        <img src="img/b-Encanto-Floral.png" alt="Encanto Floral" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Encanto Floral</h3>
-                        <p class="text-gray-600 mb-4">Flores frescas y elegantes</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-magenta-flor">$399 MXN</span>
-                            <button class="bg-verde-hoja text-white px-4 py-2 rounded-lg hover:bg-green-600 smooth-transition">Agregar</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover">
-                    <div class="h-48 w-full overflow-hidden">
-                        <img src="img/b-Esencia-de-Lujo.png" alt="Encanto Floral" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Esencia de Lujo</h3>
-                        <p class="text-gray-600 mb-4">Arreglo elegante y sofisticado</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-magenta-flor">$699 MXN</span>
-                            <button class="bg-verde-hoja text-white px-4 py-2 rounded-lg hover:bg-green-600 smooth-transition">Agregar</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover">
-                    <div class="h-48 w-full overflow-hidden">
-                        <img src="img/b-Amor-Encajado.png" alt="Encanto Floral" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Amor Encajado</h3>
-                        <p class="text-gray-600 mb-4">Detalle romántico exclusivo</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-magenta-flor">$549 MXN</span>
-                            <button class="bg-verde-hoja text-white px-4 py-2 rounded-lg hover:bg-green-600 smooth-transition">Agregar</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover">
-                    <div class="h-48 w-full overflow-hidden">
-                        <img src="img/b-Sueño-de-Primavera.png" alt="Encanto Floral" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Sueño de Primavera</h3>
-                        <p class="text-gray-600 mb-4">Alegre y lleno de color</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-magenta-flor">$479 MXN</span>
-                            <button class="bg-verde-hoja text-white px-4 py-2 rounded-lg hover:bg-green-600 smooth-transition">Agregar</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover">
-                    <div class="h-48 w-full overflow-hidden">
-                        <img src="img/b-Pasion-Eterna.png" alt="Encanto Floral" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Amor puro y pasión</h3>
-                        <p class="text-gray-600 mb-4">Combo romántico perfecto</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-2xl font-bold text-magenta-flor">$599 MXN</span>
-                            <button class="bg-verde-hoja text-white px-4 py-2 rounded-lg hover:bg-green-600 smooth-transition">Agregar</button>
-                        </div>
-                    </div>
-                </div>
+
+            <!-- DONDE SE INSERTAN LOS PRODUCTOS -->
+            <div id="lista-productos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             </div>
         </div>
     </section>
@@ -195,64 +204,33 @@
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold text-gray-900 mb-4">Sobre Nosotros</h2>
             </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+                <!-- Misión -->
                 <div class="fade-in">
-                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="bg-white p-8 rounded-lg shadow-lg flex flex-col h-full">
                         <div class="text-4xl mb-4">🎯</div>
                         <h3 class="text-2xl font-bold text-magenta-flor mb-4">Nuestra Misión</h3>
                         <p class="text-gray-600 leading-relaxed">
-                            Conectar corazones a través de flores frescas y hermosas, brindando un servicio de entrega rápido y confiable que permita expresar sentimientos y emociones en los momentos más importantes de la vida.
+                            Conectar corazones a través de flores frescas y hermosas, brindando un servicio de entrega
+                            rápido y confiable que permita expresar sentimientos y emociones en los momentos más
+                            importantes de la vida.
                         </p>
                     </div>
                 </div>
+
+                <!-- Visión -->
                 <div class="fade-in">
-                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="bg-white p-8 rounded-lg shadow-lg flex flex-col h-full">
                         <div class="text-4xl mb-4">👁️</div>
                         <h3 class="text-2xl font-bold text-magenta-flor mb-4">Nuestra Visión</h3>
                         <p class="text-gray-600 leading-relaxed">
-                            Ser la plataforma líder en entrega de flores, reconocida por la calidad de nuestros productos, la innovación en nuestros servicios y la satisfacción total de nuestros clientes en toda la región.
+                            Ser la plataforma líder en entrega de flores, reconocida por la calidad de nuestros
+                            productos, la innovación en nuestros servicios y la satisfacción total de nuestros clientes
+                            en toda la región.
                         </p>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Cómo Funciona Section -->
-    <section id="como-funciona" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">¿Cómo Funciona?</h2>
-                <p class="text-xl text-gray-600">Proceso simple en 4 pasos</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="text-center fade-in">
-                    <div class="bg-verde-hoja w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-3xl text-white"><img src="img/elegir.png" alt=""></span>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Elige tus Flores</h3>
-                    <p class="text-gray-600">Navega por nuestro catálogo y selecciona el arreglo perfecto</p>
-                </div>
-                <div class="text-center fade-in">
-                    <div class=" w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-3xl text-white"><img src="img/personalizar.png" alt=""></span>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Personaliza tu Pedido</h3>
-                    <p class="text-gray-600">Agrega una tarjeta personalizada y elige la fecha de entrega</p>
-                </div>
-                <div class="text-center fade-in">
-                    <div class="bg-verde-hoja w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-3xl text-white"><img src="img/pago.png" alt=""></span>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Realiza el Pago</h3>
-                    <p class="text-gray-600">Pago seguro con múltiples opciones disponibles</p>
-                </div>
-                <div class="text-center fade-in">
-                    <div class=" w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span class="text-3xl text-white"><img src="img/entrega.png" alt=""></span>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Recibe y Disfruta</h3>
-                    <p class="text-gray-600">Seguimiento en tiempo real hasta la entrega</p>
                 </div>
             </div>
         </div>
@@ -265,200 +243,250 @@
                 <h2 class="text-4xl font-bold text-gray-900 mb-4">Contáctanos</h2>
                 <p class="text-xl text-gray-600">Estamos aquí para ayudarte</p>
             </div>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div>
-                    <form class="bg-white p-8 rounded-lg shadow-lg">
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Nombre</label>
-                            <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+                <!-- Información de Contacto -->
+                <div class="bg-white p-8 rounded-lg shadow-lg flex flex-col h-full">
+                    <h3 class="text-xl font-bold text-magenta-flor mb-4">Información de Contacto</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">📍</span>
+                            <span>Calle 123 #45-67, Bogotá, Colombia</span>
                         </div>
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                            <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required>
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">📞</span>
+                            <span>+57 300 123 4567</span>
                         </div>
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Mensaje</label>
-                            <textarea rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-verde-hoja text-white py-3 rounded-lg hover:bg-green-600 smooth-transition">Enviar Mensaje</button>
-                    </form>
-                </div>
-                <div>
-                    <div class="bg-white p-8 rounded-lg shadow-lg mb-8">
-                        <h3 class="text-xl font-bold text-magenta-flor mb-4">Información de Contacto</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-center">
-                                <span class="text-2xl mr-3">📍</span>
-                                <span>Calle 123 #45-67, Bogotá, Colombia</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="text-2xl mr-3">📞</span>
-                                <span>+57 300 123 4567</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="text-2xl mr-3">✉️</span>
-                                <span>info@florexpress.com</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-lg">
-                        <h3 class="text-xl font-bold text-magenta-flor mb-4">Síguenos</h3>
-                        <div class="flex space-x-4">
-                            <a href="#" class="text-3xl hover:text-verde-hoja smooth-transition" style="width: 300px;"><img src="img/facebook.png" alt=""></a>
-                            <a href="#" class="text-3xl hover:text-verde-hoja smooth-transition" style="width: 300px;"><img src="img/instagram.png" alt=""></a>
-                            <a href="#" class="text-3xl hover:text-verde-hoja smooth-transition" style="width: 300px;"><img src="img/gorjeo.png" alt=""></a>
-                            <a href="#" class="text-3xl hover:text-verde-hoja smooth-transition" style="width: 300px;"><img src="img/tik-tok.png" alt=""></a>
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">✉️</span>
+                            <span>info@florexpress.com</span>
                         </div>
                     </div>
                 </div>
+
+                <!-- Síguenos -->
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold text-magenta-flor mb-4">Síguenos</h3>
+                    <div class="flex space-x-4 items-center">
+                        <a href="#"><img src="img/facebook.png" class="w-16 h-16"></a>
+                        <a href="#"><img src="img/instagram.png" class="w-16 h-16"></a>
+                        <a href="#"><img src="img/gorjeo.png" class="w-16 h-16"></a>
+                        <a href="#"><img src="img/tik-tok.png" class="w-16 h-16"></a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- App Download Section -->
+
+    <!-- App -->
     <section id="app" class="py-20 gradient-bg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="text-white">
-                <h2 class="text-4xl font-bold mb-4">Descarga Nuestra App</h2>
-                <p class="text-xl mb-8">Lleva Flor Express contigo a donde vayas</p>
-                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
-                    <a href="#" class="bg-black text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-gray-800 smooth-transition">
-                        <span class="text-2xl"><img src="img/google-play.png" alt="" width="40px"></span>
-                        <div class="text-left">
-                            <div class="text-xs">Disponible en</div>
-                            <div class="text-lg font-semibold">Google Play</div>
-                        </div>
-                    </a>
-                    <a href="#" class="bg-black text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-gray-800 smooth-transition">
-                        <span class="text-2xl"><img src="img/app-store.png" alt="" width="40px"></span>
-                        <div class="text-left">
-                            <div class="text-xs">Descargar en</div>
-                            <div class="text-lg font-semibold">App Store</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="mt-8">
-                    <p class="mb-4">O escanea el código QR:</p>
-                    <div class="bg-white p-4 rounded-lg inline-block">
-                        <div class="w-32 h-32 bg-gray-200 flex items-center justify-center text-4xl">📱</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        ... <!-- SIN CAMBIOS -->
     </section>
 
-    <!-- Login Modal -->
-    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-900">Iniciar Sesión</h3>
-                <button onclick="hideModals()" class="text-gray-500 hover:text-gray-700">✕</button>
-            </div>
-            
-            <form>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                    <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
-                    <input type="password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required>
-                </div>
-                <button type="button" onclick="showDashboard()" class="w-full bg-verde-hoja text-white py-3 rounded-lg hover:bg-green-600 smooth-transition mb-4">Iniciar Sesión</button>
-                <div class="text-center">
-                    <a href="#" onclick="showPasswordRecovery()" class="text-magenta-flor hover:underline">¿Olvidaste tu contraseña?</a>
-                </div>
-                <div class="text-center mt-4">
-                    <span class="text-gray-600">¿No tienes cuenta? </span>
-                    <a href="#" onclick="showRegister()" class="text-magenta-flor hover:underline">Regístrate</a>
-                </div>
-            </form>
+    <!-- Modales -->
+    <!-- Modal Login -->
+    <div id="login-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close" onclick="hideModals()">✖</button>
+            <h2 class="modal-title">Iniciar Sesión</h2>
+
+            <input type="email" id="login-email" placeholder="Correo electrónico" class="modal-input">
+            <input type="password" id="login-password" placeholder="Contraseña" class="modal-input">
+
+            <button onclick="showDashboard()" class="modal-btn-primary">Entrar</button>
+            <button onclick="showRegister()" class="modal-btn-link">Crear cuenta</button>
         </div>
     </div>
 
-    <!-- Register Modal -->
-    <div id="register-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-900">Crear Cuenta</h3>
-                <button onclick="hideModals()" class="text-gray-500 hover:text-gray-700">✕</button>
-            </div>
-            
-            <div class="mb-6">
-                <div class="flex space-x-2">
-                    <button onclick="setRegisterType('cliente')" class="register-type-btn flex-1 py-2 px-4 rounded-lg bg-verde-hoja text-white">Cliente</button>
-                    <button onclick="setRegisterType('floreria')" class="register-type-btn flex-1 py-2 px-4 rounded-lg bg-gray-200 text-gray-700">Florería</button>
-                </div>
-            </div>
-            
-            <form>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Nombre Completo</label>
-                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                    <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Teléfono</label>
-                    <input type="tel" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required>
-                </div>
-                <div id="floreria-fields" class="hidden">
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Nombre de la Florería</label>
-                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Dirección</label>
-                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja">
-                    </div>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
-                    <input type="password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Confirmar Contraseña</label>
-                    <input type="password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required>
-                </div>
-                <button type="button" onclick="showSuccessMessage('Cuenta creada exitosamente')" class="w-full bg-verde-hoja text-white py-3 rounded-lg hover:bg-green-600 smooth-transition mb-4">Crear Cuenta</button>
-                <div class="text-center">
-                    <span class="text-gray-600">¿Ya tienes cuenta? </span>
-                    <a href="#" onclick="showLogin()" class="text-magenta-flor hover:underline">Inicia Sesión</a>
-                </div>
-            </form>
+    <!-- Modal Registro -->
+    <div id="register-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close" onclick="hideModals()">✖</button>
+            <h2 class="modal-title">Crear Cuenta</h2>
+
+            <input type="email" id="register-email" placeholder="Correo electrónico" class="modal-input">
+            <input type="password" id="register-password" placeholder="Contraseña" class="modal-input">
+
+            <button class="modal-btn-secondary">Registrar</button>
+            <button onclick="showLogin()" class="modal-btn-link">Ya tengo cuenta</button>
         </div>
     </div>
 
-    <!-- Password Recovery Modal -->
-    <div id="password-recovery-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-900">Recuperar Contraseña</h3>
-                <button onclick="hideModals()" class="text-gray-500 hover:text-gray-700">✕</button>
-            </div>
-            
-            <div class="text-center mb-6">
-                <div class="text-6xl mb-4">🔐</div>
-                <p class="text-gray-600">Ingresa tu email y te enviaremos un enlace para restablecer tu contraseña</p>
-            </div>
-            
-            <form>
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                    <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-verde-hoja" required>
-                </div>
-                <button type="button" onclick="showSuccessMessage('Enlace enviado a tu email')" class="w-full bg-verde-hoja text-white py-3 rounded-lg hover:bg-green-600 smooth-transition mb-4">Enviar Enlace</button>
-                <div class="text-center">
-                    <a href="#" onclick="showLogin()" class="text-magenta-flor hover:underline">Volver al Login</a>
-                </div>
-            </form>
+    <!-- Modal Recuperar Contraseña -->
+    <!-- Modal Recuperar Contraseña -->
+    <div id="password-recovery-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close" onclick="hideModals()">✖</button>
+
+            <h2 class="modal-title">Recuperar Contraseña</h2>
+
+            <input type="email" id="recovery-email" placeholder="Ingresa tu correo" class="modal-input">
+
+            <button class="modal-btn-primary">Enviar enlace</button>
+
+            <button onclick="showLogin()" class="modal-btn-link">Volver al login</button>
         </div>
     </div>
+
+
+
+    <!-- SCRIPT: CARGA PRODUCTOS DINÁMICOS -->
+    <script>
+        fetch("actions/get_catalogo.php")
+            .then(res => res.json())
+            .then(productos => {
+                const lista = document.getElementById("lista-productos");
+
+                if (!productos.length) {
+                    lista.innerHTML = `
+        <p class='col-span-4 text-center text-gray-400 text-lg'>
+          No hay productos disponibles en este momento
+        </p>`;
+                    return;
+                }
+
+                lista.innerHTML = productos.slice(0, 4).map(p => `
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover">
+        <div class="h-48 w-full overflow-hidden">
+
+          <img src="${p.imagen_principal.startsWith('http') ? p.imagen_principal : './' + p.imagen_principal}" 
+               class="w-full h-full object-cover">
+
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-semibold mb-2">${p.nombre_articulo}</h3>
+          <p class="text-gray-600 mb-4">Producto disponible</p>
+          <div class="flex justify-between items-center">
+            <span class="text-2xl font-bold text-magenta-flor">
+              $${parseFloat(p.precio).toFixed(2)} MXN
+            </span>
+            <button onclick="comprar(${p.id_articulo})" class="bg-verde-hoja text-white px-4 py-2 rounded-lg hover:bg-green-600 smooth-transition">
+        Comprar
+    </button>
+          </div>
+        </div>
+      </div>
+    `).join("");
+            });
+
+        function comprar(id) {
+            window.location.href = "login.php?redir=producto&id=" + id;
+        }
+    </script>
+
+    <script>
+        function comprar(idArticulo) {
+            fetch('session_status.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.logged_in) {
+                        showLogin(); // abrir modal login
+                        return;
+                    }
+
+                    // Ya hay sesión → agregar al carrito
+                    fetch('actions/agregar_carrito.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ id_articulo: idArticulo })
+                    })
+                        .then(res => res.json())
+                        .then(resp => {
+                            if (resp.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Agregado al carrito',
+                                    text: 'Puedes seguir comprando.',
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+                            } else {
+                                Swal.fire('Error', resp.message, 'error');
+                            }
+                        });
+                });
+        }
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/main.js"></script>
-    <script src="js/auth.js"></script>
+    <script src="js/auth.js?v=3"></script>
+
+    <script>
+        fetch("actions/get_catalogo.php")
+            .then(res => res.json())
+            .then(productos => {
+                const lista = document.getElementById("lista-productos");
+
+                if (!productos.length) {
+                    lista.innerHTML = `
+            <p class='col-span-4 text-center text-gray-400 text-lg'>
+            No hay productos disponibles en este momento
+            </p>`;
+                    return;
+                }
+
+                lista.innerHTML = productos.slice(0, 4).map(p => `
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden card-hover">
+            <div class="h-48 w-full overflow-hidden">
+                <img src="${p.imagen_principal.startsWith('http') ? p.imagen_principal : './' + p.imagen_principal}" 
+                class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2">${p.nombre_articulo}</h3>
+                <p class="text-gray-600 mb-4">Producto disponible</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-2xl font-bold text-magenta-flor">
+                    $${parseFloat(p.precio).toFixed(2)} MXN
+                    </span>
+                    <button onclick="comprar(${p.id_articulo})" class="bg-verde-hoja text-white px-4 py-2 rounded-lg hover:bg-green-600 smooth-transition">
+                        Comprar
+                    </button>
+                </div>
+            </div>
+        </div>
+        `).join("");
+            });
+
+        function comprar(idArticulo) {
+            fetch('session_status.php')
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.logged_in) {
+                        showLogin();
+                        return;
+                    }
+
+                    fetch('actions/agregar_carrito.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id_articulo: idArticulo })
+                    })
+                        .then(res => res.json())
+                        .then(resp => {
+                            if (resp.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Agregado al carrito',
+                                    text: 'Puedes seguir comprando.',
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+                            } else {
+                                Swal.fire('Error', resp.message, 'error');
+                            }
+                        });
+                });
+        }
+    </script>
+
+
 </body>
+
 </html>

@@ -2,40 +2,55 @@
 let currentUserType = 'cliente';
 let currentRegisterType = 'cliente';
 
-// Modal functions
+// Modal functions (a prueba de fallos)
 function hideModals() {
-    document.getElementById('login-modal').classList.add('hidden');
-    document.getElementById('register-modal').classList.add('hidden');
-    document.getElementById('password-recovery-modal').classList.add('hidden');
+    const modals = [
+        'login-modal',
+        'register-modal',
+        'password-recovery-modal'
+    ];
+
+    modals.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
 }
 
 function showLogin() {
     hideModals();
-    document.getElementById('login-modal').classList.remove('hidden');
+    const m = document.getElementById('login-modal');
+    if (m) m.classList.remove('hidden');
 }
 
 function showRegister() {
     hideModals();
-    document.getElementById('register-modal').classList.remove('hidden');
+    const m = document.getElementById('register-modal');
+    if (m) m.classList.remove('hidden');
 }
 
 function showPasswordRecovery() {
     hideModals();
-    document.getElementById('password-recovery-modal').classList.remove('hidden');
+    const m = document.getElementById('password-recovery-modal');
+    if (m) m.classList.remove('hidden');
 }
 
-function setUserType(type) {
+
+// Fix: event is now safely passed
+function setUserType(type, event) {
     currentUserType = type;
     const buttons = document.querySelectorAll('.user-type-btn');
     buttons.forEach(btn => {
         btn.classList.remove('bg-verde-hoja', 'text-white');
         btn.classList.add('bg-gray-200', 'text-gray-700');
     });
-    event.target.classList.remove('bg-gray-200', 'text-gray-700');
-    event.target.classList.add('bg-verde-hoja', 'text-white');
+
+    if (event && event.target) {
+        event.target.classList.remove('bg-gray-200', 'text-gray-700');
+        event.target.classList.add('bg-verde-hoja', 'text-white');
+    }
 }
 
-function setRegisterType(type) {
+function setRegisterType(type, event) {
     currentRegisterType = type;
     const buttons = document.querySelectorAll('.register-type-btn');
     const floreriaFields = document.getElementById('floreria-fields');
@@ -44,17 +59,21 @@ function setRegisterType(type) {
         btn.classList.remove('bg-verde-hoja', 'text-white');
         btn.classList.add('bg-gray-200', 'text-gray-700');
     });
-    event.target.classList.remove('bg-gray-200', 'text-gray-700');
-    event.target.classList.add('bg-verde-hoja', 'text-white');
+
+    if (event && event.target) {
+        event.target.classList.remove('bg-gray-200', 'text-gray-700');
+        event.target.classList.add('bg-verde-hoja', 'text-white');
+    }
     
     if (type === 'floreria') {
-        floreriaFields.classList.remove('hidden');
+        if (floreriaFields) floreriaFields.classList.remove('hidden');
     } else {
-        floreriaFields.classList.add('hidden');
+        if (floreriaFields) floreriaFields.classList.add('hidden');
     }
 }
 
-// FUNCIONALIDAD DE LOGIN CON BASE DE DATOS
+
+// LOGIN
 function showDashboard() {
     const email = document.querySelector('#login-modal input[type="email"]').value;
     const password = document.querySelector('#login-modal input[type="password"]').value;
@@ -130,7 +149,7 @@ function showDashboard() {
 }
 
 
-// Mensaje genérico de éxito (para el registro o recuperación)
+// mensaje genérico
 function showSuccessMessage(message) {
     Swal.fire({
         icon: 'success',
@@ -140,3 +159,15 @@ function showSuccessMessage(message) {
     });
     hideModals();
 }
+
+
+// cerrar modal al hacer click fuera
+document.addEventListener('click', (e) => {
+    const modals = ['login-modal', 'register-modal', 'password-recovery-modal'];
+    modals.forEach(id => {
+        const modal = document.getElementById(id);
+        if (!modal.classList.contains('hidden') && e.target === modal) {
+            hideModals();
+        }
+    });
+});
