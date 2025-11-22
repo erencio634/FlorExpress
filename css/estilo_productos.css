@@ -1,0 +1,155 @@
+/* estilo_productos.css - Estilos específicos para tarjetas de productos */
+
+/* Contenedor de productos del catálogo */
+#catalogo .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3.gap-6 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Tarjeta de producto */
+.producto-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 480px; /* Altura fija */
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.producto-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Imagen del producto */
+.producto-imagen {
+    width: 100%;
+    height: 220px; /* Imagen más grande */
+    object-fit: cover;
+    display: block;
+}
+
+/* Contenido interno de la tarjeta */
+.producto-contenido {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-bottom: 110px; /* Más espacio para elementos fijos */
+}
+
+/* Título del producto */
+.producto-titulo {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    height: 3rem; /* Altura fija */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.5;
+    color: #1f2937;
+}
+
+/* Descripción del producto */
+.producto-descripcion {
+    color: #6b7280;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    min-height: 4.5rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* Contenedor de precio y categoría - POSICIÓN FIJA */
+.producto-precio-categoria {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 60px; /* Separado de los botones */
+    left: 1.5rem;
+    right: 1.5rem;
+    margin-bottom: 0;
+    padding-bottom: 10px; /* Espacio adicional */
+}
+
+/* Precio del producto */
+.producto-precio {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #e74c3c;
+}
+
+/* Categoría del producto */
+.producto-categoria {
+    background-color: #dcfce7;
+    color: #166534;
+    padding: 0.4rem 0.8rem; /* Un poco más grande */
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600; /* Más negrita */
+}
+
+/* Botones de acción - POSICIÓN FIJA (más abajo) */
+.producto-acciones {
+    display: flex;
+    gap: 0.5rem;
+    position: absolute;
+    bottom: 1rem; /* Más abajo */
+    left: 1.5rem;
+    right: 1.5rem;
+    margin-top: 0;
+}
+
+/* Botones individuales */
+.producto-acciones button,
+.producto-form-eliminar button {
+    flex: 1;
+    padding: 0.6rem 0.75rem; /* Un poco más de padding */
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600; /* Más negrita */
+    text-align: center;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+/* Botón Editar */
+.producto-boton-editar {
+    background-color: #22c55e;
+    color: white;
+}
+
+.producto-boton-editar:hover {
+    background-color: #16a34a;
+    transform: translateY(-1px);
+}
+
+/* Botón Eliminar */
+.producto-boton-eliminar {
+    background-color: #ef4444;
+    color: white;
+    width: 100%;
+}
+
+.producto-boton-eliminar:hover {
+    background-color: #dc2626;
+    transform: translateY(-1px);
+}
+
+/* Form eliminar */
+.producto-form-eliminar {
+    flex: 1;
+    margin: 0;
+}

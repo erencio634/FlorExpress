@@ -65,3 +65,80 @@ body {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
 }
+
+/* ESTILOS CORREGIDOS - SIN SUPERPOSICIÓN */
+#lista-productos .bg-white.rounded-lg.shadow-lg.overflow-hidden {
+    display: flex;
+    flex-direction: column;
+    min-height: 450px;
+}
+
+#lista-productos .bg-white.rounded-lg.shadow-lg.overflow-hidden .h-48 {
+    height: 300px;    /* Aumenta la altura de la imagen */
+    flex-shrink: 0;
+}
+
+
+#lista-productos .bg-white.rounded-lg.shadow-lg.overflow-hidden .p-6 {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#lista-productos .bg-white.rounded-lg.shadow-lg.overflow-hidden .text-xl.font-semibold.mb-2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    min-height: 3rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.5;
+}
+
+#lista-productos .bg-white.rounded-lg.shadow-lg.overflow-hidden .text-gray-600.mb-4 {
+    color: #6b7280;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    min-height: 4.5rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+/* CONTENEDOR CORREGIDO - SIN POSITION ABSOLUTE */
+#lista-productos .producto-precio-boton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+#lista-productos .producto-precio {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #C33A94;
+}
+
+#lista-productos .producto-boton-comprar {
+    background-color: #C3D600;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+#lista-productos .producto-boton-comprar:hover {
+    background-color: #a8b800;
+    transform: translateY(-1px);
+}
